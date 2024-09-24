@@ -5,11 +5,13 @@ import java.util.Comparator;
 
 public class MemoryProcess {
     public ArrayList<Job> entryMemoryJobs;
+    public ArrayList<Job> finishedJobs;
     public Job nowProcess;
     public int systemTime;
     boolean out = false;
     public MemoryProcess(int systemTime) {
         this.entryMemoryJobs = new ArrayList<>();
+        this.finishedJobs = new ArrayList<>();
         this.nowProcess = null;
         this.systemTime = systemTime;
     }
@@ -25,7 +27,14 @@ public class MemoryProcess {
             nowProcess.endTime = systemTime;
             nowProcess.turnaroundTime = nowProcess.endTime - nowProcess.arrivalTime;
             nowProcess.weightedTurnaroundTime = (double) nowProcess.turnaroundTime / nowProcess.estimatedRunTime;
-            // 添加表头
+            finishedJobs.add(nowProcess);
+            entryMemoryJobs.remove(nowProcess);
+            nowProcess = null;
+        }
+    }
+    public void outPut(){
+        finishedJobs.sort(Comparator.comparing(job -> job.arrivalTime));
+        for(Job job : finishedJobs){
             if (!out) {
                 out = true;
                 System.out.println("+------+----------+--------------+----------+----------+----------+----------------+");
@@ -33,24 +42,23 @@ public class MemoryProcess {
                 System.out.println("+------+----------+--------------+----------+----------+----------+----------------+");
             }
             String output = String.format("| %-4s | %-8s | %-12d | %-8s | %-8s | %-8d | %-14.2f |",
-                    nowProcess.jobName,
-                    TimeConverter.convertMinutesToTime(nowProcess.arrivalTime),
-                    nowProcess.estimatedRunTime,
-                    TimeConverter.convertMinutesToTime(nowProcess.startTime),
-                    TimeConverter.convertMinutesToTime(nowProcess.endTime),
-                    nowProcess.turnaroundTime,
-                    nowProcess.weightedTurnaroundTime);
+                    job.jobName,
+                    TimeConverter.convertMinutesToTime(job.arrivalTime),
+                    job.estimatedRunTime,
+                    TimeConverter.convertMinutesToTime(job.startTime),
+                    TimeConverter.convertMinutesToTime(job.endTime),
+                    job.turnaroundTime,
+                    job.weightedTurnaroundTime);
             System.out.println(output);
             if (entryMemoryJobs.size() == 1) {
                 System.out.println("+------+----------+--------------+----------+----------+----------+----------------+");
             } else {
                 System.out.println("+------+----------+--------------+----------+----------+----------+----------------+");
             }
-            entryMemoryJobs.remove(nowProcess);
-            nowProcess = null;
         }
-    }
+        // 添加表头
 
+    }
     //先来先服务算法
     public void FCFS() {
         if (nowProcess == null) {

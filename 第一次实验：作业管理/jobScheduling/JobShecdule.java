@@ -99,7 +99,7 @@ public class JobShecdule {
                     mp.FCFS();
             }
         } while (!sp.allJobs.isEmpty() || !sp.enterSystemJobs.isEmpty() || mp.nowProcess != null || !mp.entryMemoryJobs.isEmpty());
-
+        mp.outPut();
         scanner.close();
     }
 }
