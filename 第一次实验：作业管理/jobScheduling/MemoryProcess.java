@@ -19,6 +19,7 @@ public class MemoryProcess {
     public void excuteProcess() {
         if(!nowProcess.modifyStartTime) {
             nowProcess.startTime = systemTime;
+            nowProcess.waitingTime = nowProcess.startTime - nowProcess.arrivalTime;
             nowProcess.modifyStartTime = true;
         }
         systemTime++;
@@ -34,28 +35,35 @@ public class MemoryProcess {
     }
     public void outPut(){
         finishedJobs.sort(Comparator.comparing(job -> job.arrivalTime));
+        double allWeightedTurnaroundTime = 0;
+        double allWaitingTime = 0;
         for(Job job : finishedJobs){
             if (!out) {
                 out = true;
-                System.out.println("+------+----------+--------------+----------+----------+----------+----------------+");
-                System.out.println("| 作业  | 进入时间  | 估计运行时间   | 开始时间   | 结束时间  | 周转时间  | 带权周转时间     |");
-                System.out.println("+------+----------+--------------+----------+----------+----------+----------------+");
+                System.out.println("+------+----------+--------------+----------+----------+----------+----------+----------------+");
+                System.out.println("| 作业  | 进入时间  | 估计运行时间   | 开始时间   | 结束时间  | 等待时间  | 周转时间  | 带权周转时间     |");
+                System.out.println("+------+----------+--------------+----------+----------+----------+----------+----------------+");
             }
-            String output = String.format("| %-4s | %-8s | %-12d | %-8s | %-8s | %-8d | %-14.2f |",
+            String output = String.format("| %-4s | %-8s | %-12d | %-8s | %-8s | %-8s | %-8d | %-14.2f |",
                     job.jobName,
                     TimeConverter.convertMinutesToTime(job.arrivalTime),
                     job.estimatedRunTime,
                     TimeConverter.convertMinutesToTime(job.startTime),
                     TimeConverter.convertMinutesToTime(job.endTime),
+                    job.waitingTime,
                     job.turnaroundTime,
                     job.weightedTurnaroundTime);
             System.out.println(output);
             if (entryMemoryJobs.size() == 1) {
-                System.out.println("+------+----------+--------------+----------+----------+----------+----------------+");
+                System.out.println("+------+----------+--------------+----------+----------+----------+----------+----------------+");
             } else {
-                System.out.println("+------+----------+--------------+----------+----------+----------+----------------+");
+                System.out.println("+------+----------+--------------+----------+----------+----------+----------+----------------+");
             }
+            allWeightedTurnaroundTime += job.weightedTurnaroundTime;
+            allWaitingTime += job.waitingTime;
         }
+        System.out.println("平均等待时间：" + allWaitingTime / finishedJobs.size());
+        System.out.println("平均带权周转时间:" + allWeightedTurnaroundTime / finishedJobs.size());
         // 添加表头
 
     }

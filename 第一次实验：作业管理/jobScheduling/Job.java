@@ -11,6 +11,7 @@ public class Job {
     int turnaroundTime;
     double weightedTurnaroundTime;
     double responseRatio;
+    int waitingTime;
     int priority;
     public Job(String jobName, int arrivalTime, int estimatedRunTime, int priority) {
         this.jobName = jobName;

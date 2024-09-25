@@ -16,6 +16,8 @@ public class JobShecdule {
 ////        Job B = new Job("2", TimeConverter.convertTimeToMinutes("10:20"), 30,3);
 ////        Job C = new Job("3", TimeConverter.convertTimeToMinutes("10:30"), 50,4);
 ////        Job D = new Job("4", TimeConverter.convertTimeToMinutes("10:50"), 20,6);
+        System.out.println("请输入CPU通道数：");
+        int batches = scanner.nextInt();
         System.out.print("请输入作业数量：");
         int jobCount = scanner.nextInt();
         scanner.nextLine(); // 清除缓冲区
@@ -35,7 +37,6 @@ public class JobShecdule {
             jobs.add(job);
         }
 
-        int batches = 2;
         SystemProcess sp = new SystemProcess(jobs);
         MemoryProcess mp = new MemoryProcess(sp.systemTime);
 
