@@ -62,8 +62,9 @@ public class MemoryProcess {
             allWeightedTurnaroundTime += job.weightedTurnaroundTime;
             allWaitingTime += job.waitingTime;
         }
-        System.out.println("平均等待时间：" + allWaitingTime / finishedJobs.size());
-        System.out.println("平均带权周转时间:" + allWeightedTurnaroundTime / finishedJobs.size());
+        System.out.println("结束运行时间：" + TimeConverter.convertMinutesToTime(systemTime));
+        System.out.println("平均等待时间：" + String.format("%.2f", allWaitingTime / (double)finishedJobs.size()));
+        System.out.println("平均带权周转时间：" + String.format("%.2f", allWeightedTurnaroundTime / (double)finishedJobs.size()));
         // 添加表头
 
     }

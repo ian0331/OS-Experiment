@@ -6,6 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="2010dd37-c0cf-4583-b5d6-5c5c081ba55a" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/jobScheduling/JobShecdule.java" beforeDir="false" afterPath="$PROJECT_DIR$/jobScheduling/JobShecdule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/jobScheduling/MemoryProcess.java" beforeDir="false" afterPath="$PROJECT_DIR$/jobScheduling/MemoryProcess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/第一次实验：作业管理/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/第一次实验：作业管理/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/第一次实验：作业管理/jobScheduling/JobShecdule.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/第一次实验：作业管理/jobScheduling/JobShecdule.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/第一次实验：作业管理/jobScheduling/MemoryProcess.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/第一次实验：作业管理/jobScheduling/MemoryProcess.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,7 +60,8 @@
       <updated>1727138899407</updated>
       <workItem from="1727138900510" duration="333000" />
       <workItem from="1727139420127" duration="1381000" />
-      <workItem from="1727239040782" duration="368000" />
+      <workItem from="1727239040782" duration="2379000" />
+      <workItem from="1727277595676" duration="673000" />
     </task>
     <servers />
   </component>
