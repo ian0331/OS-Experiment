@@ -4,16 +4,17 @@ import java.util.Scanner;
 public class BankerAlgorithm {
     public int numProcesses;       // 进程的数量
     public int numResourceTypes;   // 资源种类的数量
-    public int[][] Max;
-    public int[][] Allocation;
-    public int[][] Need;
+    public int[][] Max;            //最大需求矩阵
+    public int[][] Allocation;     //分配矩阵
+    public int[][] Need;           //需求矩阵
     public int[] Available;
-    public int[] Work;
-    public int nowProcess;
-    public int[] Request;
+    public int[] Work;             //工作向量
+    public int nowProcess;         //当前正在请求分配资源的进程
+    public int[] Request;          //进程申请资源向量
     public int[] Answer;
-    public boolean[] finished =  new boolean[numProcesses];
+    public boolean[] finished =  new boolean[numProcesses];//标记已完成的进程
     public BankerAlgorithm(int numProcesses, int numResourceTypes) {
+        //构造函数，初始化
         this.numProcesses = numProcesses;
         this.numResourceTypes = numResourceTypes;
         this.Max = new int[numProcesses][numResourceTypes];
@@ -26,6 +27,7 @@ public class BankerAlgorithm {
         this.Answer = new int[numProcesses];
     }
     public void request() {
+        //请求分配资源
         for (int i = 0; i < numResourceTypes; i++) {
             if (Request[i] > Need[nowProcess][i]) {
                 System.out.println("所需要的资源数已经超过它所宣布的最大值");
@@ -63,6 +65,7 @@ public class BankerAlgorithm {
 
     }
     public boolean security() {
+        //安全性检查函数
     // 重置 Work 和 finished
     System.arraycopy(Available, 0, Work, 0, numResourceTypes);
     Arrays.fill(finished, false);
@@ -92,6 +95,7 @@ public class BankerAlgorithm {
             return false; // 如果在一轮循环中没有找到可以完成的进程，则退出
         }
     }
+    //如果对于所有的i，Finish[i]=true都成立，则系统处于安全状态；否则系统就是不安全的
     return true;
 }
 }
