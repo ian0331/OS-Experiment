@@ -39,7 +39,6 @@ public class SystemProcess {
     }
     //最高响应比
     public void HRN() {
-
         if (!allJobs.isEmpty()) {
             if (allJobs.getFirst().arrivalTime == systemTime) {
                 enterSystemJobs.add(allJobs.getFirst());
