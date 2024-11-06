@@ -35,7 +35,7 @@ public class BankerAlgorithm {
                 return;
             }
             if (Request[i] > Available[i]) {
-                System.out.println("尚无足够资源，需等待");
+                System.out.println("不能实施分配，该申请超过了系统当前剩余的资源量");
                 return;
             }
         }
@@ -54,6 +54,7 @@ public class BankerAlgorithm {
                     System.out.print((Answer[i])+"->");
                 }
             }
+            System.out.println(" ");
         }else{
             //恢复原来的状态
             for (int i = 0; i < numResourceTypes; i++) {
@@ -61,7 +62,7 @@ public class BankerAlgorithm {
                 Allocation[nowProcess][i] -= Request[i];
                 Need[nowProcess][i] += Request[i];
             }
-            System.out.println("当前状态不安全,拒绝分配，恢复原来的系统状态，进程等待");
+            System.out.println("当前状态不安全,拒绝分配，恢复原来的系统状态");
         }
 
     }
