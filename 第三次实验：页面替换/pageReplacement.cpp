@@ -398,7 +398,7 @@ int main()
     cout << "3. LRU (最近最久未使用算法)\n";
     cout << "4. SC (第二次机会页面置换算法/时钟页面置换算法)\n";
     cout << "5. Aging (老化算法)\n";
-    cout << "请输入选择 (1-4): ";
+    cout << "请输入选择 (1-5): ";
     cin >> choice;
 
     switch(choice) {
