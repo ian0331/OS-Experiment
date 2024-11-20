@@ -15,7 +15,10 @@ void print_ans(const string& algorithm)
 {
     // 打印列标题
     cout << "\n页面置换过程演示：\n\n";
-    cout << algorithm << "\t";  // 显示对应的算法名称
+    if(algorithm.size() >= 4)
+        cout << algorithm << "\t";  // 显示对应的算法名称
+    else
+        cout << algorithm << "\t\t";
 
     for(int i = 0; i < pageDirection.size(); i++) {
         cout << pageDirection[i] << "\t";
@@ -279,22 +282,22 @@ void SC()
 
             // 如果没有空闲位置，找最久未使用的页面
             if(!hasEmpty) {
-               while(true)
-               {
-                   if(R[point] == 0)
-                   {
-                       replaceIndex = point;
-                       point ++ ;
-                       point %= totalPages;
-                       break;
-                   }
-                   else
-                   {
-                       R[point]--;
-                       point ++ ;
-                       point %= totalPages;
-                   }
-               }
+                while(true)
+                {
+                    if(R[point] == 0)
+                    {
+                        replaceIndex = point;
+                        point ++ ;
+                        point %= totalPages;
+                        break;
+                    }
+                    else
+                    {
+                        R[point]--;
+                        point ++ ;
+                        point %= totalPages;
+                    }
+                }
             }
 
             // 替换页面
@@ -374,6 +377,87 @@ void Aging() {
 
     print_ans("Aging");
 }
+//最近未使用页面置换算法
+void NRU() {
+    vector<int> memory(totalPages, 0);  // 当前内存中的页面
+    vector<bool> R(totalPages, false);  // 访问位
+    vector<bool> M(totalPages, false);  // 修改位
+    // 初始化ans大小
+    ans.resize(totalPages, vector<int>(pageDirection.size(), 0));
+
+    int clockTick = 0;  // 模拟时钟中断计数器
+    const int CLOCK_INTERVAL = 4;  // 每4次访问模拟一次时钟中断
+
+    for(int i = 0; i < pageDirection.size(); i++) {
+        // 模拟时钟中断，重置R位
+        if(++clockTick >= CLOCK_INTERVAL) {
+            fill(R.begin(), R.end(), false);
+            clockTick = 0;
+        }
+
+        // 检查当前页面是否在内存中
+        bool found = false;
+        int foundIndex = -1;
+        for(int j = 0; j < totalPages; j++) {
+            if(memory[j] == pageDirection[i]) {
+                found = true;
+                foundIndex = j;
+                break;
+            }
+        }
+
+        if(found) {
+            // 页面已在内存中，设置R位和M位
+            R[foundIndex] = true;
+            M[foundIndex] = true;  // 假设每次访问都会修改页面
+        } else {
+            // 需要进行页面置换
+            isReplaced[i] = 1;
+
+            // 先查找空闲位置
+            int replaceIndex = -1;
+            for(int j = 0; j < totalPages; j++) {
+                if(memory[j] == 0) {
+                    replaceIndex = j;
+                    break;
+                }
+            }
+
+            // 如果没有空闲位置，根据NRU策略选择替换页面
+            if(replaceIndex == -1) {
+                int minClass = 4;
+                vector<int> candidates;
+
+                // 扫描所有页面，找出最小类别
+                for(int j = 0; j < totalPages; j++) {
+                    int pageClass = (R[j] ? 2 : 0) + (M[j] ? 1 : 0);
+                    if(pageClass < minClass) {
+                        minClass = pageClass;
+                        candidates.clear();
+                        candidates.push_back(j);
+                    } else if(pageClass == minClass) {
+                        candidates.push_back(j);
+                    }
+                }
+
+                // 从最小类别中随机选择一个页面
+                replaceIndex = candidates[rand() % candidates.size()];
+            }
+
+            // 替换页面
+            memory[replaceIndex] = pageDirection[i];
+            R[replaceIndex] = true;
+            M[replaceIndex] = false;  // 新载入的页面初始未修改
+        }
+
+        // 记录当前状态
+        for(int j = 0; j < totalPages; j++) {
+            ans[j][i] = memory[j];
+        }
+    }
+
+    print_ans("NRU");
+}
 int main()
 {
     cout << "请输入页面走向(直接按回车结束):" << endl;
@@ -398,7 +482,8 @@ int main()
     cout << "3. LRU (最近最久未使用算法)\n";
     cout << "4. SC (第二次机会页面置换算法/时钟页面置换算法)\n";
     cout << "5. Aging (老化算法)\n";
-    cout << "请输入选择 (1-5): ";
+    cout << "6. NRU (最近未使用页面置换算法)\n";
+    cout << "请输入选择 (1-6): ";
     cin >> choice;
 
     switch(choice) {
@@ -416,6 +501,9 @@ int main()
             break;
         case 5:
             Aging();
+            break;
+        case 6:
+            NRU();
             break;
         default:
             cout << "无效的选择！" << endl;
